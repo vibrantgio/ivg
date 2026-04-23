@@ -24,7 +24,7 @@ import (
 	"github.com/reactivego/gio"
 	"github.com/reactivego/gio/style"
 
-	raster "github.com/reactivego/ivg/raster/gio"
+	raster "github.com/vibrantgio/ivg/raster/gio"
 )
 
 func main() {

@@ -9,8 +9,8 @@ import (
 	"image/color"
 	"math"
 
-	"github.com/reactivego/ivg"
-	"github.com/reactivego/ivg/raster"
+	"github.com/vibrantgio/ivg"
+	"github.com/vibrantgio/ivg/raster"
 )
 
 var (

@@ -1,11 +1,11 @@
-module github.com/reactivego/ivg/raster/gio
+module github.com/vibrantgio/ivg/raster/gio
 
 go 1.20
 
 require (
 	gioui.org v0.1.0
 	github.com/reactivego/gio v0.0.4
-	github.com/reactivego/ivg v0.1.2
+	github.com/vibrantgio/ivg v0.1.2
 	golang.org/x/exp/shiny v0.0.0-20220827204233-334a2380cb91
 	golang.org/x/image v0.9.0
 )

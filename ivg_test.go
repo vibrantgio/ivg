@@ -4,11 +4,11 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/reactivego/ivg"
-	"github.com/reactivego/ivg/decode"
-	"github.com/reactivego/ivg/encode"
-	"github.com/reactivego/ivg/generate"
-	"github.com/reactivego/ivg/render"
+	"github.com/vibrantgio/ivg"
+	"github.com/vibrantgio/ivg/decode"
+	"github.com/vibrantgio/ivg/encode"
+	"github.com/vibrantgio/ivg/generate"
+	"github.com/vibrantgio/ivg/render"
 )
 
 func TestEncodeDecode(t *testing.T) {

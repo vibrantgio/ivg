@@ -1,4 +1,4 @@
-module github.com/reactivego/ivg
+module github.com/vibrantgio/ivg
 
 go 1.17
 

@@ -1,7 +1,7 @@
 package mdicons
 
 import (
-	"github.com/reactivego/ivg"
+	"github.com/vibrantgio/ivg"
 	"golang.org/x/image/math/f32"
 )
 

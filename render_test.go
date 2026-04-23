@@ -15,9 +15,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/reactivego/ivg/decode"
-	"github.com/reactivego/ivg/raster/img"
-	"github.com/reactivego/ivg/render"
+	"github.com/vibrantgio/ivg/decode"
+	"github.com/vibrantgio/ivg/raster/img"
+	"github.com/vibrantgio/ivg/render"
 )
 
 // overwriteTestdataFiles is temporarily set to true when adding new

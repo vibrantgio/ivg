@@ -11,9 +11,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/reactivego/ivg/decode"
-	"github.com/reactivego/ivg/raster/img"
-	"github.com/reactivego/ivg/render"
+	"github.com/vibrantgio/ivg/decode"
+	"github.com/vibrantgio/ivg/raster/img"
+	"github.com/vibrantgio/ivg/render"
 )
 
 func Example() {

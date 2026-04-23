@@ -7,7 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/reactivego/ivg/decode"
+	"github.com/vibrantgio/ivg/decode"
 )
 
 func main() {

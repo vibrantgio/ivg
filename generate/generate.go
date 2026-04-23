@@ -6,7 +6,7 @@ import (
 	"math"
 	"strconv"
 
-	"github.com/reactivego/ivg"
+	"github.com/vibrantgio/ivg"
 )
 
 type Error string

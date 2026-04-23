@@ -10,7 +10,7 @@ import (
 	"image/color"
 	"math"
 
-	"github.com/reactivego/ivg"
+	"github.com/vibrantgio/ivg"
 )
 
 func isNaNOrInfinity(f float32) bool {

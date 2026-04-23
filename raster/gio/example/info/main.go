@@ -12,10 +12,10 @@ import (
 	"gioui.org/layout"
 	"gioui.org/op"
 
-	"github.com/reactivego/ivg"
-	"github.com/reactivego/ivg/encode"
-	"github.com/reactivego/ivg/generate"
-	raster "github.com/reactivego/ivg/raster/gio"
+	"github.com/vibrantgio/ivg"
+	"github.com/vibrantgio/ivg/encode"
+	"github.com/vibrantgio/ivg/generate"
+	raster "github.com/vibrantgio/ivg/raster/gio"
 )
 
 func main() {

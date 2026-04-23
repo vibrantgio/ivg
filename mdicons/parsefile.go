@@ -9,8 +9,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/reactivego/ivg"
-	"github.com/reactivego/ivg/encode"
+	"github.com/vibrantgio/ivg"
+	"github.com/vibrantgio/ivg/encode"
 	"golang.org/x/image/math/f32"
 )
 

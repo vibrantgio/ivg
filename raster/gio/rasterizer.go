@@ -13,7 +13,7 @@ import (
 	"gioui.org/op/clip"
 	"gioui.org/op/paint"
 
-	"github.com/reactivego/ivg/raster"
+	"github.com/vibrantgio/ivg/raster"
 )
 
 var (

@@ -12,7 +12,7 @@ import (
 	"gioui.org/layout"
 	"gioui.org/op"
 
-	raster "github.com/reactivego/ivg/raster/gio"
+	raster "github.com/vibrantgio/ivg/raster/gio"
 )
 
 func main() {

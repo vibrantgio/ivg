@@ -6,8 +6,8 @@ import (
 	"image/color"
 	"testing"
 
-	"github.com/reactivego/ivg"
-	"github.com/reactivego/ivg/raster/img"
+	"github.com/vibrantgio/ivg"
+	"github.com/vibrantgio/ivg/raster/img"
 )
 
 func TestInvalidAlphaPremultipliedColor(t *testing.T) {

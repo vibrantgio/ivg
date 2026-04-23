@@ -8,7 +8,7 @@ import (
 	"image/color"
 	"testing"
 
-	"github.com/reactivego/ivg"
+	"github.com/vibrantgio/ivg"
 )
 
 func TestBlendColor(t *testing.T) {

@@ -7,9 +7,9 @@ import (
 	"gioui.org/op"
 	"gioui.org/op/paint"
 
-	"github.com/reactivego/ivg/decode"
-	"github.com/reactivego/ivg/raster/img"
-	"github.com/reactivego/ivg/render"
+	"github.com/vibrantgio/ivg/decode"
+	"github.com/vibrantgio/ivg/raster/img"
+	"github.com/vibrantgio/ivg/render"
 )
 
 type PaintFunc func(*op.Ops, []byte, image.Rectangle, ...decode.DecodeOption)

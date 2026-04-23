@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/reactivego/ivg/mdicons"
+	"github.com/vibrantgio/ivg/mdicons"
 )
 
 func main() {

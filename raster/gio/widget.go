@@ -7,8 +7,8 @@ import (
 	"gioui.org/layout"
 	"gioui.org/op"
 	"gioui.org/unit"
-	"github.com/reactivego/ivg"
-	"github.com/reactivego/ivg/decode"
+	"github.com/vibrantgio/ivg"
+	"github.com/vibrantgio/ivg/decode"
 )
 
 type Option = func(*option)

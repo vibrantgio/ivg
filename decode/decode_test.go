@@ -13,8 +13,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/reactivego/ivg"
-	"github.com/reactivego/ivg/encode"
+	"github.com/vibrantgio/ivg"
+	"github.com/vibrantgio/ivg/encode"
 )
 
 // overwriteTestdataFiles is temporarily set to true when adding new

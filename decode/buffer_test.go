@@ -9,7 +9,7 @@ import (
 	"math"
 	"testing"
 
-	"github.com/reactivego/ivg"
+	"github.com/vibrantgio/ivg"
 )
 
 var naturalTestCases = []struct {

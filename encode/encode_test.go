@@ -13,7 +13,7 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/reactivego/ivg"
+	"github.com/vibrantgio/ivg"
 )
 
 // overwriteTestdataFiles is temporarily set to true when adding new
