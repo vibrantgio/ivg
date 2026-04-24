@@ -22,7 +22,7 @@ import (
 	"gioui.org/widget"
 
 	"github.com/vibrantgio/style"
-	vtext "github.com/vibrantgio/text"
+	"github.com/vibrantgio/textdraw"
 
 	"github.com/vibrantgio/ivg"
 	"github.com/vibrantgio/ivg/encode"
@@ -80,7 +80,7 @@ func Cowbell() {
 				}
 				widget(gtx)
 				msg := fmt.Sprintf("%s (%v)", backend, time.Since(start).Round(time.Microsecond))
-				text := vtext.Text(shaper, style.H5, 0.0, 0.0, black, msg)
+				text := textdraw.Text(shaper, style.H5, 0.0, 0.0, black, msg)
 				text(gtx)
 				return layout.Dimensions{Size: event.Size}
 			})
