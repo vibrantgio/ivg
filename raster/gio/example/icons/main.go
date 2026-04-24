@@ -21,8 +21,8 @@ import (
 	"gioui.org/op/paint"
 	"gioui.org/text"
 
-	"github.com/reactivego/gio"
-	"github.com/reactivego/gio/style"
+	"github.com/vibrantgio/style"
+	vtext "github.com/vibrantgio/text"
 
 	raster "github.com/vibrantgio/ivg/raster/gio"
 )
@@ -83,7 +83,7 @@ func Icons() {
 
 				// paint text
 				msg := fmt.Sprintf("%s (%v)", backend, time.Since(start).Round(time.Microsecond))
-				text := gio.Text(shaper, style.H5, 0.0, 0.0, black, msg)
+				text := vtext.Text(shaper, style.H5, 0.0, 0.0, black, msg)
 				text(gtx)
 				return layout.Dimensions{Size: size}
 			})
