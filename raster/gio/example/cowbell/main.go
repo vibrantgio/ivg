@@ -13,7 +13,6 @@ import (
 	"golang.org/x/exp/shiny/materialdesign/colornames"
 
 	"gioui.org/app"
-	"gioui.org/io/system"
 	"gioui.org/layout"
 	"gioui.org/op"
 	"gioui.org/op/clip"
@@ -36,10 +35,10 @@ func main() {
 }
 
 func Cowbell() {
-	window := app.NewWindow(
+	window := new(app.Window)
+	window.Option(
 		app.Title("IVG - Cowbell"),
-		app.Size(768, 768),
-	)
+		app.Size(768, 768))
 
 	grey300 := color.NRGBAModel.Convert(colornames.Grey300).(color.NRGBA)
 	grey800 := color.NRGBAModel.Convert(colornames.Grey800).(color.NRGBA)
@@ -51,19 +50,22 @@ func Cowbell() {
 	}
 
 	ops := new(op.Ops)
-	shaper := text.NewShaper(style.FontFaces())
+	shaper := text.NewShaper(text.WithCollection(style.FontFaces()))
 	backdrop := widget.Clickable{}
 	backend := "Gio"
-	for next := range window.Events() {
-		if event, ok := next.(system.FrameEvent); ok {
-			gtx := layout.NewContext(ops, event)
+	for {
+		switch e := window.Event().(type) {
+		case app.DestroyEvent:
+			os.Exit(0)
+		case app.FrameEvent:
+			gtx := app.NewContext(ops, e)
 
 			backdrop.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
 				size := gtx.Constraints.Max
 				paint.Fill(ops, grey800)
 				return layout.Dimensions{Size: size}
 			})
-			for range backdrop.Clicks() {
+			if backdrop.Clicked(gtx) {
 				backend = map[string]string{"Img": "Gio", "Gio": "Img"}[backend]
 			}
 
@@ -82,12 +84,11 @@ func Cowbell() {
 				msg := fmt.Sprintf("%s (%v)", backend, time.Since(start).Round(time.Microsecond))
 				text := textdraw.Text(shaper, style.H5, 0.0, 0.0, black, msg)
 				text(gtx)
-				return layout.Dimensions{Size: event.Size}
+				return layout.Dimensions{Size: e.Size}
 			})
-			event.Frame(ops)
+			e.Frame(gtx.Ops)
 		}
 	}
-	os.Exit(0)
 }
 
 func CowbellIVG() ([]byte, error) {

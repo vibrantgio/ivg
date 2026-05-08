@@ -9,7 +9,6 @@ import (
 	"os"
 
 	"gioui.org/app"
-	"gioui.org/io/system"
 	"gioui.org/layout"
 	"gioui.org/op"
 
@@ -30,10 +29,10 @@ func main() {
 }
 
 func Logo() {
-	window := app.NewWindow(
+	window := new(app.Window)
+	window.Option(
 		app.Title("IVG - Logo"),
-		app.Size(768, 768),
-	)
+		app.Size(768, 768))
 
 	data, err := LogoIVG()
 	if err != nil {
@@ -56,14 +55,16 @@ func Logo() {
 	}
 
 	ops := new(op.Ops)
-	for next := range window.Events() {
-		if event, ok := next.(system.FrameEvent); ok {
-			gtx := layout.NewContext(ops, event)
+	for {
+		switch e := window.Event().(type) {
+		case app.DestroyEvent:
+			os.Exit(0)
+		case app.FrameEvent:
+			gtx := app.NewContext(ops, e)
 			layout.UniformInset(24).Layout(gtx, widget)
-			event.Frame(ops)
+			e.Frame(gtx.Ops)
 		}
 	}
-	os.Exit(0)
 }
 
 func LogoIVG() ([]byte, error) {

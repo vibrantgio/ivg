@@ -11,7 +11,6 @@ import (
 	"golang.org/x/image/vector"
 
 	"gioui.org/app"
-	"gioui.org/io/system"
 	"gioui.org/op"
 	"gioui.org/op/clip"
 	"gioui.org/op/paint"
@@ -23,15 +22,18 @@ func main() {
 }
 
 func Blend() {
-	window := app.NewWindow(
+	window := new(app.Window)
+	window.Option(
 		app.Title("IVG - Blend"),
-		app.Size(480, 480),
-	)
+		app.Size(480, 480))
 	ops := new(op.Ops)
-	for next := range window.Events() {
-		if event, ok := next.(system.FrameEvent); ok {
+	for {
+		switch e := window.Event().(type) {
+		case app.DestroyEvent:
+			os.Exit(0)
+		case app.FrameEvent:
 			ops.Reset()
-			dx, dy := event.Size.X, event.Size.Y
+			dx, dy := e.Size.X, e.Size.Y
 
 			// This app demonstrates blending of a translucent highlight color on top of an opaque
 			// background color. The upper half of the window is filled using "gioui.org/op/paint"
@@ -77,8 +79,7 @@ func Blend() {
 			cstack.Pop()
 			tstack.Pop()
 
-			event.Frame(ops)
+			e.Frame(ops)
 		}
 	}
-	os.Exit(0)
 }

@@ -8,8 +8,6 @@ import (
 	"os"
 
 	"gioui.org/app"
-	"gioui.org/io/system"
-	"gioui.org/layout"
 	"gioui.org/op"
 
 	raster "github.com/vibrantgio/ivg/raster/gio"
@@ -21,23 +19,25 @@ func main() {
 }
 
 func Arrow() {
-	window := app.NewWindow(
+	window := new(app.Window)
+	window.Option(
 		app.Title("IVG - Arrow"),
-		app.Size(768, 768),
-	)
+		app.Size(768, 768))
 	widget, err := raster.Widget(AVPlayArrow, 48, 48, raster.WithColors(Amber400))
 	if err != nil {
 		log.Fatal(err)
 	}
 	ops := new(op.Ops)
-	for next := range window.Events() {
-		if event, ok := next.(system.FrameEvent); ok {
-			gtx := layout.NewContext(ops, event)
+	for {
+		switch e := window.Event().(type) {
+		case app.DestroyEvent:
+			os.Exit(0)
+		case app.FrameEvent:
+			gtx := app.NewContext(ops, e)
 			widget(gtx)
-			event.Frame(ops)
+			e.Frame(gtx.Ops)
 		}
 	}
-	os.Exit(0)
 }
 
 var (

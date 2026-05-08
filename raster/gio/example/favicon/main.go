@@ -13,13 +13,12 @@ import (
 	"golang.org/x/exp/shiny/materialdesign/colornames"
 
 	"gioui.org/app"
-	"gioui.org/io/pointer"
-	"gioui.org/io/system"
 	"gioui.org/layout"
 	"gioui.org/op"
 	"gioui.org/op/clip"
 	"gioui.org/op/paint"
 	"gioui.org/text"
+	"gioui.org/widget"
 
 	"github.com/vibrantgio/style"
 	"github.com/vibrantgio/textdraw"
@@ -36,10 +35,10 @@ func main() {
 }
 
 func FavIcon() {
-	window := app.NewWindow(
+	window := new(app.Window)
+	window.Option(
 		app.Title("IVG - Favicon"),
-		app.Size(768, 768),
-	)
+		app.Size(768, 768))
 
 	grey300 := color.NRGBAModel.Convert(colornames.Grey300).(color.NRGBA)
 	grey800 := color.NRGBAModel.Convert(colornames.Grey800).(color.NRGBA)
@@ -51,46 +50,47 @@ func FavIcon() {
 	}
 
 	ops := new(op.Ops)
-	shaper := text.NewShaper(style.FontFaces())
+	shaper := text.NewShaper(text.WithCollection(style.FontFaces()))
+	backdrop := widget.Clickable{}
 	backend := "Gio"
-	for next := range window.Events() {
-		if event, ok := next.(system.FrameEvent); ok {
-			gtx := layout.NewContext(ops, event)
+	for {
+		switch e := window.Event().(type) {
+		case app.DestroyEvent:
+			os.Exit(0)
+		case app.FrameEvent:
+			gtx := app.NewContext(ops, e)
 
-			// backdrop
-			pointer.InputOp{Tag: backend, Types: pointer.Release}.Add(gtx.Ops)
-			for _, next := range event.Queue.Events(backend) {
-				if event, ok := next.(pointer.Event); ok {
-					if event.Type == pointer.Release {
-						backend = map[string]string{"Gio": "Img", "Img": "Gio"}[backend]
-					}
-				}
+			backdrop.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+				size := gtx.Constraints.Max
+				paint.Fill(gtx.Ops, grey800)
+				return layout.Dimensions{Size: size}
+			})
+			if backdrop.Clicked(gtx) {
+				backend = map[string]string{"Gio": "Img", "Img": "Gio"}[backend]
 			}
-			paint.Fill(gtx.Ops, grey800)
 
 			layout.UniformInset(12).Layout(gtx, func(gtx layout.Context) layout.Dimensions {
 				size := gtx.Constraints.Max
 				paint.FillShape(ops, grey300, clip.Rect(image.Rectangle{Max: size}).Op())
 				start := time.Now()
-				var widget layout.Widget
+				var w layout.Widget
 				switch backend {
 				case "Gio":
-					widget, _ = raster.Widget(data, 48, 48)
+					w, _ = raster.Widget(data, 48, 48)
 				case "Img":
-					widget, _ = raster.Widget(data, 48, 48, raster.WithImageBackend())
+					w, _ = raster.Widget(data, 48, 48, raster.WithImageBackend())
 				}
-				widget(gtx)
+				w(gtx)
 				msg := fmt.Sprintf("%s (%v)", backend, time.Since(start).Round(time.Microsecond))
-				text := textdraw.Text(shaper, style.H5, 0.0, 0.0, black, msg)
-				text(gtx)
+				txt := textdraw.Text(shaper, style.H5, 0.0, 0.0, black, msg)
+				txt(gtx)
 
 				return layout.Dimensions{Size: size}
 			})
 
-			event.Frame(ops)
+			e.Frame(gtx.Ops)
 		}
 	}
-	os.Exit(0)
 }
 
 func FaviconIVG() ([]byte, error) {

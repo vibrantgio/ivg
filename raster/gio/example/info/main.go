@@ -8,8 +8,6 @@ import (
 	"os"
 
 	"gioui.org/app"
-	"gioui.org/io/system"
-	"gioui.org/layout"
 	"gioui.org/op"
 
 	"github.com/vibrantgio/ivg"
@@ -24,10 +22,10 @@ func main() {
 }
 
 func Info() {
-	window := app.NewWindow(
+	window := new(app.Window)
+	window.Option(
 		app.Title("IVG - Info"),
-		app.Size(768, 768),
-	)
+		app.Size(768, 768))
 
 	data, err := InfoIVG()
 	if err != nil {
@@ -42,14 +40,16 @@ func Info() {
 	}
 
 	ops := new(op.Ops)
-	for next := range window.Events() {
-		if event, ok := next.(system.FrameEvent); ok {
-			gtx := layout.NewContext(ops, event)
+	for {
+		switch e := window.Event().(type) {
+		case app.DestroyEvent:
+			os.Exit(0)
+		case app.FrameEvent:
+			gtx := app.NewContext(ops, e)
 			widget(gtx)
-			event.Frame(ops)
+			e.Frame(gtx.Ops)
 		}
 	}
-	os.Exit(0)
 }
 
 // InfoIVG generates ivg data bytes on the fly for the Info icon.
