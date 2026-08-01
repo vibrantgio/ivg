@@ -1,8 +1,8 @@
 # ivg
 
-    import "github.com/reactivego/ivg"
+    import "github.com/vibrantgio/ivg"
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/reactivego/ivg.svg)](https://pkg.go.dev/github.com/reactivego/ivg#section-documentation)
+[![Go Reference](https://pkg.go.dev/badge/github.com/vibrantgio/ivg.svg)](https://pkg.go.dev/github.com/vibrantgio/ivg#section-documentation)
 
 Package `ivg` provides a powerful implementation for rendering [IconVG](https://github.com/google/iconvg) icons through a flexible Rasterizer interface. IconVG is an efficient binary format designed specifically for vector graphic icons.
 
@@ -163,6 +163,16 @@ The most important changes w.r.t. the original IconVG code are:
         - `favicon` vector image with several blended layers.
         - `cowbell` vector image with several blended layers including gradients.
         - `gradients` vector image with lots of gradients.
+
+## For coding assistants
+
+Read the canonical guide before writing code against this module — the module
+inventory with current tags, the application skeleton, MVU and rx semantics,
+typography, and the pitfalls that are not guessable:
+
+<https://raw.githubusercontent.com/vibrantgio/.github/master/llms.txt>
+
+[`AGENTS.md`](./AGENTS.md) in this repository has the build and test commands.
 
 ## Acknowledgement
 
