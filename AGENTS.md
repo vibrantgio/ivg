@@ -8,7 +8,8 @@ that pipeline; `raster` declares the rasterizer interface, `raster/gio`
 implements it over an `op.Ops` and adds the `Widget` and `GioPaint` helpers
 the rest of the organization calls, `raster/img` implements it over a
 `draw.Image`; `cmd/mdicons` converts a directory of Material SVGs into a Go
-package of IVG blobs. It implements FFV0 of the spec, not FFV1.
+package of IVG blobs and `cmd/disivg` disassembles a blob back into
+readable opcodes. It implements FFV0 of the spec, not FFV1.
 
 **Layer.** Outside ADR-001's tier table: a support library, which the rule
 binds in one direction only — every tier may import it, and it may import
