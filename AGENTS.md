@@ -10,15 +10,17 @@ the rest of the organization calls, `raster/img` implements it over a
 `draw.Image`; `cmd/mdicons` converts a directory of Material SVGs into a Go
 package of IVG blobs. It implements FFV0 of the spec, not FFV1.
 
-**Layer.** Outside ADR-001's tier table: a support library the design
-system consumes and never depends on. `raster/gio` is the package
-everything actually calls: prism requires it for its `icon/gallery` and
-`gallery` demos, `mvu/example` for four of its examples, and the workbench
-applications `todos`, `iconbrowser`, `launcher` and `mindchat` for their
-icons — mindchat also encodes IVG at run time through `ivg`, `encode` and
-`generate`. Neither of ivg's own modules imports the design system; four of
-the eight demo programs under `raster/gio/example/` do, and only the tier-0
-leaves `style` and `textdraw`.
+**Layer.** Outside ADR-001's tier table: a support library, which the rule
+binds in one direction only — every tier may import it, and it may import
+nothing in the table itself. Its root module imports nothing else in the
+organization. Its nested `ivg/raster/gio` module adds `font`, `style` and
+`textdraw` — those edges are the nested module's and not the root's.
+Imported by `prism`. Outside the tier table, also by the demo modules
+`mvu/example` and `prism/gallery` and the workbench applications
+`iconbrowser`, `launcher`, `mindchat` and `todos`. Both directions are
+measured rather than typed — `scripts/check-layers.sh --edges` reports the
+graph and `scripts/sync-agents.sh` renders these sentences from it — so
+correcting them here changes nothing.
 
 **Read the canonical guide before you write code against this module.** It is
 the organization's one agent guide — the module inventory with current tags,
