@@ -15,13 +15,10 @@ readable opcodes. It implements FFV0 of the spec, not FFV1.
 binds in one direction only — every tier may import it, and it may import
 nothing in the table itself. Its root module imports nothing else in the
 organization. Its nested `ivg/raster/gio` module adds `font`, `style` and
-`textdraw` — those edges are the nested module's and not the root's.
-Imported by `components`. Outside the tier table, also by the demo modules
-`components/gallery` and `mvu/example` and the workbench applications
-`iconbrowser`, `launcher`, `mindchat` and `todos`. Both directions are
-measured rather than typed — `scripts/check-layers.sh --edges` reports the
-graph and `scripts/sync-agents.sh` renders these sentences from it — so
-correcting them here changes nothing.
+`textdraw` — those edges are the nested module's and not the root's. Both
+directions are measured rather than typed — `scripts/check-layers.sh
+--edges` reports the graph and `scripts/sync-agents.sh` renders these
+sentences from it — so correcting them here changes nothing.
 
 **Read the canonical guide before you write code against this module.** It is
 the organization's one agent guide — the module inventory with current tags,
