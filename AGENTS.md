@@ -6,19 +6,22 @@ interface rather than a fixed bitmap, so one blob of icon data drives an
 image or a Gio op list. `decode`, `encode`, `generate` and `render` are
 that pipeline; `raster` declares the rasterizer interface, `raster/gio`
 implements it over an `op.Ops` and adds the `Widget` and `GioPaint` helpers
-the rest of the organization calls, `raster/img` implements it over a
-`draw.Image`; `cmd/mdicons` converts a directory of Material SVGs into a Go
-package of IVG blobs and `cmd/disivg` disassembles a blob back into
-readable opcodes. It implements FFV0 of the spec, not FFV1.
+a Gio caller draws through, `raster/img` implements it over a `draw.Image`;
+`cmd/mdicons` converts a directory of Material SVGs into a Go package of
+IVG blobs and `cmd/disivg` disassembles a blob back into readable opcodes.
+It implements FFV0 of the spec, not FFV1.
 
 **Layer.** Outside ADR-001's tier table: a support library, which the rule
 binds in one direction only — every tier may import it, and it may import
 nothing in the table itself. Its root module imports nothing else in the
 organization. Its nested `ivg/raster/gio` module adds `font`, `style` and
-`textdraw` — those edges are the nested module's and not the root's. Both
-directions are measured rather than typed — `scripts/check-layers.sh
---edges` reports the graph and `scripts/sync-agents.sh` renders these
-sentences from it — so correcting them here changes nothing.
+`textdraw` — those edges are the nested module's and not the root's. That
+direction is measured rather than typed — `scripts/check-layers.sh --edges`
+reports the graph and `scripts/sync-agents.sh` renders these sentences from
+it — so correcting them here changes nothing. The other direction is
+measured too and deliberately not written down: the gate checks the graph
+both ways, but a public API's consumers are unknowable, so this file says
+what its module needs and never who needs it.
 
 **Read the canonical guide before you write code against this module.** It is
 the organization's one agent guide — the module inventory with current tags,
