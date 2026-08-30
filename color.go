@@ -269,13 +269,6 @@ func (c Color) String() string {
 	case ColorTypeCReg:
 		return fmt.Sprintf("CREG[%d]", c.cReg())
 	case ColorTypeBlend:
-		// old
-		// 40                blend 191:64 c0:c1
-		// ff                    c0: CREG[63]
-		// 80                    c1: customPalette[0]
-
-		// new
-		// 40 ff 80          blend (191:64) (CREG[63]:customPalette[0])
 		t, c0, c1 := c.blend()
 		return fmt.Sprintf("blend (%d:%d) (%v:%v)", 0xff-t, t, DecodeColor1(c0), DecodeColor1(c1))
 	}

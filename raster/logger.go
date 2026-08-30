@@ -18,19 +18,16 @@ func (r *RasterizerLogger) Reset(w, h int) {
 
 func (r *RasterizerLogger) Size() image.Point {
 	s := r.Rasterizer.Size()
-	// fmt.Printf("raster.Size() = %#v\n", s)
 	return s
 }
 
 func (r *RasterizerLogger) Bounds() image.Rectangle {
 	b := r.Rasterizer.Bounds()
-	// fmt.Printf("raster.Bounds() = %#v\n", b)
 	return b
 }
 
 func (r *RasterizerLogger) Pen() (x, y float32) {
 	x, y = r.Rasterizer.Pen()
-	// fmt.Printf("raster.Pen() = (x:%.2f, y:%.2f)\n", x, y)
 	return x, y
 }
 

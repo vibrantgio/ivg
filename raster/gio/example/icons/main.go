@@ -62,12 +62,10 @@ func Icons() {
 				backend = map[string]string{"Gio": "Img", "Img": "Gio"}[backend]
 			}
 
-			// fill content rect
 			layout.UniformInset(12).Layout(gtx, func(gtx layout.Context) layout.Dimensions {
 				size := gtx.Constraints.Max
 				paint.FillShape(ops, grey300, clip.Rect(image.Rectangle{Max: size}).Op())
 
-				// select next icon and paint
 				n := uint(len(IconCollection))
 				ico := IconCollection[(uint(index)+n)%n]
 				index++
@@ -82,7 +80,6 @@ func Icons() {
 				}
 				w(gtx)
 
-				// paint text
 				msg := fmt.Sprintf("%s (%v)", backend, time.Since(start).Round(time.Microsecond))
 				txt := textdraw.Text(shaper, style.H5, 0.0, 0.0, black, msg)
 				txt(gtx)

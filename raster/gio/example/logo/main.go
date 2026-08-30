@@ -70,7 +70,6 @@ func Logo() {
 func LogoIVG() ([]byte, error) {
 	// generate ivg data bytes on the fly for the logo.
 	enc := &encode.Encoder{}
-	// dlog := &ivg.DestinationLogger{Destination: enc}
 	dlog := enc
 	gen := &generate.Generator{Destination: dlog}
 
@@ -89,7 +88,6 @@ func LogoIVG() ([]byte, error) {
 	gen.SetCReg(0, true, ivg.PaletteIndexColor(2)) // CReg[3] => palette[2] DeepOrange500
 
 	gen.SetCSel(1)
-	// gen.SetCSel(3)
 
 	// Shield for CSel == 1 uses adj == 0: color CReg[CSel-adj == 1] => palette[0] LightBlue600
 	// Shield for CSel == 3 uses adj == 0: color CReg[CSel-adj == 3] => palette[2] DeepOrange500
