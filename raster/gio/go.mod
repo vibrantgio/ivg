@@ -4,7 +4,7 @@ go 1.25.1
 
 require (
 	gioui.org v0.10.2
-	github.com/vibrantgio/ivg v0.1.7
+	github.com/vibrantgio/ivg v0.1.8
 	github.com/vibrantgio/style v0.0.5
 	github.com/vibrantgio/textdraw v0.0.4
 	golang.org/x/exp/shiny v0.0.0-20260727155853-b88d891fe743

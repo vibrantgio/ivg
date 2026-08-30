@@ -11,8 +11,8 @@ github.com/go-text/typesetting-utils v0.0.0-20260223113751-2d88ac90dae3 h1:drBZz
 github.com/go-text/typesetting-utils v0.0.0-20260223113751-2d88ac90dae3/go.mod h1:3/62I4La/HBRX9TcTpBj4eipLiwzf+vhI+7whTc9V7o=
 github.com/vibrantgio/font v0.2.0 h1:x2bAinz+alDFSQ1JHPs2UJ/nJsGt/hmnVPHW6wmoZFg=
 github.com/vibrantgio/font v0.2.0/go.mod h1:GqhPQAr9hyibHl4FtRLrqg7u83ONqXUKqQgstuL7Wi4=
-github.com/vibrantgio/ivg v0.1.7 h1:WlaqHp5oYeazVhANpHbUuJcouVDLK05pyTVz/BKewtY=
-github.com/vibrantgio/ivg v0.1.7/go.mod h1:8B2QZ8dTdYc6KuJbxJqORO77gRmxBM0o8lTOWFCDOP0=
+github.com/vibrantgio/ivg v0.1.8 h1:iaW+/z7Jq0UoeBcN1ZXdy+mZVhZREoOZQ7b+QXvjYOM=
+github.com/vibrantgio/ivg v0.1.8/go.mod h1:8B2QZ8dTdYc6KuJbxJqORO77gRmxBM0o8lTOWFCDOP0=
 github.com/vibrantgio/style v0.0.5 h1:AkqStctEF5TcNsZJyKQG2rZ6MWvna3+J+tSfTOxjRZ4=
 github.com/vibrantgio/style v0.0.5/go.mod h1:imimbuZ7XmoEy690QOC6Kw0lUigJYUC1qDj4O2DXRdA=
 github.com/vibrantgio/textdraw v0.0.4 h1:0YRS1dkongHKd3Lz5EpLKKd31f/bAEI/2nJTPNBNCWQ=
