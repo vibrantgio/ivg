@@ -13,7 +13,7 @@ bitmap image and instead directly uses a vector Rasterizer interface.
 */
 package ivg
 
-// TODO: shapes (circles, rects) and strokes? Or can we assume that authoring
+// TODO: shapes (circles, rects) and strokes? Or can we assume that content-authoring
 // tools will convert shapes and strokes to paths?
 
 // TODO: mark somehow that a graphic (such as a back arrow) should be flipped

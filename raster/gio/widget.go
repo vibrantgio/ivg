@@ -32,9 +32,9 @@ func WithColors(colors ...color.Color) Option {
 	}
 }
 
-// Widget creates a layout widget for rendering IconVG vector graphics data. It supports two rendering
+// `Widget` creates a `layout.Widget` for rendering IconVG vector graphics data. It supports two rendering
 // backends: a default Gio clip.Path implementation and an optional image-based raster backend
-// (enabled via WithImageBackend()). The widget handles aspect ratio preservation following the
+// (enabled via WithImageBackend()). The component handles aspect ratio preservation following the
 // SVG specification's "xMidYMid meet" behavior, which scales the image to fit the viewport while
 // maintaining proportions and centering it both horizontally and vertically.
 //

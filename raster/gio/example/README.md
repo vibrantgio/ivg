@@ -40,7 +40,7 @@ func PlayArrow() {
 		app.Title("IVG - PlayArrow"),
 		app.Size(768, 768),
 	)
-	widget, err := gio.Icon(AVPlayArrow, 48, 48, gio.WithColors(Amber400))
+	component, err := gio.Icon(AVPlayArrow, 48, 48, gio.WithColors(Amber400))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -48,7 +48,7 @@ func PlayArrow() {
 	for event := range window.Events() {
 		if event, ok := event.(system.FrameEvent); ok {
 			gtx := layout.NewContext(ops, event)
-			widget(gtx)
+			component(gtx)
 			event.Frame(ops)
 		}
 	}
