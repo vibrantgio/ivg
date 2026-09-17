@@ -2,7 +2,10 @@
 
 IconVG rendering for Go.
 
-Read the org guide before you write code against this module:
+<!-- sync-agents:begin -->
+Read the org guide before you write code against this module: the
+plan root's `AGENTS.md`.
 
-    https://raw.githubusercontent.com/vibrantgio/workbench/master/llms.txt
-
+Its Retired words table (`.github/AGENTS.md`, "Retired words") is the
+list; say the right-hand column, not the retired word.
+<!-- sync-agents:end -->
