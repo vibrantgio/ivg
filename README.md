@@ -8,7 +8,7 @@ Package `ivg` provides a powerful implementation for rendering [IconVG](https://
 
 This package enhances the original [IconVG](https://golang.org/x/exp/shiny/iconvg) implementation by introducing a modular vector graphics Rasterizer interface, replacing the original bitmap-only rendering system. This architectural change enables diverse rendering capabilities through different rasterizer implementations. Users can now choose between various output targets, such as bitmap images or gioui.org contexts, by implementing the appropriate rasterizer for their needs.
 
-To maintain clarity and avoid namespace confusion with the original implementation, this package has been renamed from `iconvg` to `ivg`.
+The package is named `ivg` rather than `iconvg` to keep it clear of the original implementation's namespace.
 
 ## File Format Versions
 
@@ -118,9 +118,8 @@ type Rasterizer interface {
 	// ClosePath closes the current path.
 	ClosePath()
 	// Draw aligns r.Min in z with sp in src and then replaces the rectangle r in
-	// z with the result of a Porter-Duff composition. The vector paths
-	// previously added via the XxxTo calls become the mask for drawing src onto
-	// z.
+	// z with the result of a Porter-Duff composition. The vector paths added by
+	// the XxxTo calls become the mask for drawing src onto z.
 	Draw(r image.Rectangle, src image.Image, sp image.Point)
 }
 ```
