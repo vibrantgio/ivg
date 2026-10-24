@@ -4,31 +4,43 @@
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/vibrantgio/ivg.svg)](https://pkg.go.dev/github.com/vibrantgio/ivg#section-documentation)
 
-Package `ivg` provides a powerful implementation for rendering [IconVG](https://github.com/google/iconvg) icons through a flexible Rasterizer interface. IconVG is an efficient binary format designed specifically for vector graphic icons.
+Package `ivg` renders [IconVG](https://github.com/google/iconvg) icons through a vector `Rasterizer` interface. IconVG is a compact binary format for vector graphic icons.
 
-This package enhances the original [IconVG](https://golang.org/x/exp/shiny/iconvg) implementation by introducing a modular vector graphics Rasterizer interface, replacing the original bitmap-only rendering system. This architectural change enables diverse rendering capabilities through different rasterizer implementations. Users can now choose between various output targets, such as bitmap images or gioui.org contexts, by implementing the appropriate rasterizer for their needs.
+The code is based on [golang.org/x/exp/shiny/iconvg](https://github.com/golang/exp/tree/master/shiny/iconvg), which renders to a bitmap. Here an icon is drawn through a `Rasterizer`, so the output target is chosen by the rasterizer: an image through `raster/img`, or Gio operations through `raster/gio`.
 
 The package is named `ivg` rather than `iconvg` to keep it clear of the original implementation's namespace.
 
 ## File Format Versions
 
-In order for the IconVG format to support animation in future incarnations. The format was simplified and updated to version 1 (FFV1), renaming the original format to FFV0 retroactively.
+The IconVG format was simplified to version 1 (FFV1) so that a later version can support animation; the first format is called FFV0. FFV1 represents static vector graphics icons, and a future FFV2 is to represent animated ones.
 
-FFV1 targets representing static vector graphics icons, while the future FFV2 will target representing animated vector graphics icons.
+The rationale is discussed in a GitHub proposal: [File Format Versions 1, 2 and Beyond](https://github.com/google/iconvg/issues/4#issue-905297018)
 
-The rationale for this was dicussed in a github proposal: [File Format Versions 1, 2 and Beyond](https://github.com/google/iconvg/issues/4#issue-905297018)
-
-Below are links to the different File Format Versions of the spec:
+The spec of each File Format Version:
 - [IconVG FFV0](spec/iconvg-spec-v0.md)
 - [IconVG FFV1](https://github.com/google/iconvg/blob/97b0c08e6e298f5f3606f79f3fb38cc0d64d3198/spec/iconvg-spec.md)
 
 > NOTE: This package implements the [FFV0](spec/iconvg-spec-v0.md) version of the IconVG format.
 
+## Packages
+
+| Package | What it has |
+|---|---|
+| `ivg` | The `Destination` interface, `ViewBox`, `Color` and the palette and gradient encoding shared by the other packages. |
+| `decode` | `Decode`, which reads an IconVG blob and calls the methods of a `Destination`; `DecodeViewBox`; `Disassemble`; the options `WithPalette` and `WithColorAt`. |
+| `encode` | `Encoder`, a `Destination` that writes an IconVG blob; `Bytes` returns it. |
+| `generate` | `Generator`, which takes SVG-style path data (`SetPathData`), gradients (`SetLinearGradient`, `SetCircularGradient`, `SetEllipticalGradient`, `SetGradient`) and transforms (`SetTransform`) and calls the methods of the `Destination` it is given. |
+| `render` | `Renderer`, a `Destination` that draws onto a `raster.Rasterizer`; `Gradient`, the image a gradient is drawn from, which implements `raster.GradientConfig`. |
+| `raster` | The `Rasterizer` and `GradientConfig` interfaces. |
+| `raster/img` | `Rasterizer`, which draws into a `draw.Image` with `golang.org/x/image/vector`; `NewRasterizer`. |
+| `raster/gio` | A nested module, `github.com/vibrantgio/ivg/raster/gio`: `Widget` returns a Gio `layout.Widget` for an IconVG blob, scaled to fit and centred; `GioPaint` paints with Gio clip paths, `ImagePaint` through an image (chosen with `WithImageBackend`); `WithColors` sets palette colours; `NewRasterizer` returns a `Rasterizer` that records Gio operations. |
+| `mdicons` | A parser for the Material Design icon sets as Google publishes them: `Parse` reads a Material icons folder structure of SVG files and writes Go source holding the icons as IconVG data. |
+| `cmd/disivg` | A command that disassembles an IconVG file into its opcodes. |
+| `cmd/mdicons` | A command that converts a Material icons folder structure of SVG files into a Go package of IconVG data, through `mdicons.Parse`. |
+
 ## Code Organization
 
-The original purpose of IconVG was to convert a material design icon in SVG format to a binary data blob that could be embedded in a Go program.
-
-The code is organized in several packages that can be combined in different ways to create different IconVG render pipelines. The `Destination` interface is implemented both by the `Encoder` in package `encode` and by the `Renderer` in package `render`. The `Generator` type in the `generator` package just uses a `Destination` and doesn't care whether calls are generating a data blob or render directly to a `Rasterizer` via the `Renderer`.
+The packages combine into different IconVG render pipelines. The `Destination` interface is implemented both by the `Encoder` in package `encode` and by the `Renderer` in package `render`. The `Generator` in package `generate` only uses a `Destination`, so the same calls either produce a data blob or draw directly to a `Rasterizer` through the `Renderer`.
 
 ```go
 // Destination handles the actions decoded from an IconVG graphic's opcodes.
@@ -70,21 +82,19 @@ type Destination interface {
 }
 ```
 
-A parser of SVG files reads the SVG and then calls methods on a `Destination` to produce a binary data blob.
-
-For Material Design icons:
+A parser of SVG files reads the SVG and calls methods on a `Destination` to produce a binary data blob. For the Material Design icons:
 
 ```
-mdicons/Parse -> [Destination]encode/Encoder -> []byte
+mdicons.ParsePathData -> [Destination] encode.Encoder -> []byte
 ```
 
-For more complex SVGs a Generator supports handling of e.g. gradients and transforms. The Generator is hooked up to a `Destination` to produce the binary data blob.
+For SVGs with gradients and transforms, a program calls the `Generator`, which is hooked up to a `Destination` to produce the binary data blob:
 
 ```
-svgicon/Parse -> generate/Generator -> [Destination]encode/Encoder -> []byte
+generate.Generator -> [Destination] encode.Encoder -> []byte
 ```
 
-To actually render the icon, the binary data blob would be passed to a `Decoder` that would call methods on a `Renderer` hooked up to a `Rasterizer` to render the icon.
+To render the icon, the binary data blob is passed to `decode.Decode`, which calls methods on a `Renderer` hooked up to a `Rasterizer`.
 
 ```go
 // Rasterizer is a 2-D vector graphics rasterizer.
@@ -127,58 +137,43 @@ type Rasterizer interface {
 Decoding a blob and rendering it to a `Rasterizer`:
 
 ```
-[]byte -> decode/Decoder -> [Destination]render/Renderer -> [Rasterizer]raster/img/Rasterizer
+[]byte -> decode.Decode -> [Destination] render.Renderer -> [Rasterizer] img.Rasterizer
 ```
 
-To render and icon from SVG, the Generator can also be hooked up to the `Renderer` directly and the `Encoder`/`Decoder` phase would be skipped.
+The `Generator` can also be hooked up to the `Renderer` directly, which skips encoding and decoding:
 
 ```
-svgicon/Parse -> generate/Generator -> [Destination]render/Renderer -> [Rasterizer]raster/img/Rasterizer
+generate.Generator -> [Destination] render.Renderer -> [Rasterizer] img.Rasterizer
 ```
 
-## Changes
+## Examples
 
-This package changes the original IconVG code in several ways.
-The most important changes w.r.t. the original IconVG code are:
+The directory `raster/gio/example` has one program per directory:
 
-1. Separate code into packages with a clear purpose and responsibility for better cohesion and less coupling.
-2. Split icon encoding into `encode` and `generate` package.
-3. SVG gradient and path support is now part of `generate` package.
-4. Rename `Rasterizer` to `Renderer` and place it in the `render` package.
-5. Move `Destination` interface into root `ivg` package.
-6. Make both `Encoder` and `Renderer` implement `Destination`.
-7. Make both `Decoder` and `Generator` use only `Destination` interface.
-8. `Generator` can now directly render by plugging in a `Renderer` (very useful).
-9. `Encoder` can be plugged directly into a `Decoder` (useful for testing).
-10. Abstract away rasterizing into a seperate package `raster`
-    - Declare interface `Rasterizer`.
-    - Declare interface `GradientConfig` implemented by `Renderer`.
-11. Create a rasterizer using "golang.org/x/image/vector" in directory `raster/vec`
-12. Create examples in directory `raster/gio/example`.
-    - `playarrow` simplest example of rendering an icon.
-    - `actioninfo` generate an icon on the fly, render it and cache the result.
-    - The following examples allow you to see rendering and speed differences between rasterizers by clicking on the image to switch rasterizer.
-        - `icons` renders golang.org/x/exp/shiny/materialdesign/icons.
-        - `favicon` vector image with several blended layers.
-        - `cowbell` vector image with several blended layers including gradients.
-        - `gradients` vector image with lots of gradients.
+- `arrow` renders an icon held as IconVG bytes.
+- `info` generates an icon with the `Generator`, encodes it and renders it.
+- `blend` paints a translucent colour over an opaque one twice, once with Gio paint operations and once with `golang.org/x/image/vector`, to show that both blend alike.
+- `logo` generates a logo with the `Generator` and renders it with two palette colours.
+- The following examples switch between the Gio and the image backend when the image is clicked, to show the rendering and speed differences:
+    - `icons` renders the icons of `golang.org/x/exp/shiny/materialdesign/icons`.
+    - `favicon` a vector image with several blended layers.
+    - `cowbell` a vector image with several blended layers including gradients.
+    - `gradients` a vector image with many gradients.
 
 ## For coding assistants
 
 Read the org guide before you write code against this module: the plan
 root's [`AGENTS.md`](https://github.com/vibrantgio/organisation/blob/master/AGENTS.md).
-
-[`AGENTS.md`](./AGENTS.md) in this repository has the build and test commands.
+The build and test commands are reached from that file.
 
 ## Acknowledgement
 
 The code in this package is based on [golang.org/x/exp/shiny/iconvg](https://github.com/golang/exp/tree/master/shiny/iconvg).
 
-The specification of the IconVG format has recently been moved to a separate repository [github.com/google/iconvg](https://github.com/google/iconvg).
-
+The specification of the IconVG format is in the repository [github.com/google/iconvg](https://github.com/google/iconvg).
 
 ## License
 
 Everything under the raster folder is Unlicense OR MIT (whichever you prefer). See file [raster/LICENSE](raster/LICENSE).
 
-All the other code is is governed by a BSD-style license that can be found in the [LICENSE](LICENSE) file.
+All the other code is governed by a BSD-style license that can be found in the [LICENSE](LICENSE) file.
